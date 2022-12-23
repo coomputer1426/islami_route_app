@@ -21,11 +21,13 @@ class _MyCustomFormState extends State<MyCustomForm> {
           SizedBox(height: 20,width: double.infinity,),
           ContactTextField("Phone Number"),
           SizedBox(height: 20,width: double.infinity,),
+          Row(mainAxisAlignment: MainAxisAlignment.center ,children: [ContactsButton(_formkey, "Submit"),
 
-          Padding(padding: EdgeInsets.symmetric(vertical: 16),child:
+            Padding(padding: EdgeInsets.symmetric(vertical: 16),child:
             ElevatedButton(onPressed: (){if(_formkey.currentState!.validate())
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Processing Data")),
-              );},child: Text("Submit"),),)
+              {ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Processing Data")),
+              );}},child: Text("Delete"),),)],)
+
         ],
         )),
     );
@@ -43,7 +45,23 @@ class ContactTextField extends StatelessWidget {
       child: TextFormField(validator: (String? value){
         if(value==null || value.isEmpty){
           return "Please Enter some text";
-        }return null;},decoration: InputDecoration(hintText: "Enter Your $type"), ),
+        }return null;},
+        decoration: InputDecoration(hintText: "Enter Your $type"),
+        // initialValue: "Enter Your $type",
+      ),
     );
+  }
+}
+class ContactsButton extends StatelessWidget {
+  // const ContactsButton({Key? key}) : super(key: key);
+  GlobalKey<FormState> key;
+  String text;
+  ContactsButton(this.key, this.text);
+  @override
+  Widget build(BuildContext context) {
+    return Padding(padding: EdgeInsets.symmetric(vertical: 16),child:
+    ElevatedButton(onPressed: (){if(key.currentState!.validate())
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Processing Data")),
+      );},child: Text(text),),);
   }
 }

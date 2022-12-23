@@ -8,6 +8,7 @@ class VerseWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(padding: EdgeInsets.symmetric(vertical: 8),
-      child: Text("$content [$index]",textDirection: TextDirection.rtl,textAlign: TextAlign.center ,style: TextStyle(fontSize: 18),),);
+      child: Text("$content [$index]",textDirection: TextDirection.rtl,
+        textAlign: TextAlign.center ,style: Theme.of(context).textTheme.headline6,),);
   }
 }

@@ -1,13 +1,20 @@
 
-import 'package:islami2/home/sura_details/sura_details.dart';
+import 'package:islami2/home/sura_details/sura_details_screen.dart';
+import 'package:islami2/provider/settings_provider.dart';
 import 'package:islami2/statefulwidgcontactsassign2p1/contactscreen.dart';
 import 'package:islami2/statefulwidgcontactsassign2p1/mycustomform.dart';
 import 'my_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:islami2/home_screen.dart';
+import 'package:islami2/home/hadeth_details/hadeth_details.dart';
+import 'package:provider/provider.dart';
+import 'package:islami2/provider/settings_provider.dart';
+
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 void main(){
-  runApp(MyApplication());
+  runApp(ChangeNotifierProvider(create: (buildContext)=>SettingsProvider() ,child: MyApplication()));
 
 }
 
@@ -15,15 +22,31 @@ class MyApplication extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false,
+    var settingsProvider = Provider.of<SettingsProvider>(context);
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      // themeMode: ThemeMode.dark,
+      themeMode: settingsProvider.currentTheme,
       routes: {
         HomeScreen.routeName: (_)=>HomeScreen(),
         SuraDetailsScreen.routeName: (_)=>SuraDetailsScreen(),
         ContactsScreen.routeName: (_)=>ContactsScreen(),
+        HadethDetailsScreen.routeName:(_)=>HadethDetailsScreen(),
       },
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: Locale(settingsProvider.currentLang),
+      // suppor
       // initialRoute: ContactsScreen.routeName,
+      initialRoute: HomeScreen.routeName,
       theme: MyTheme.lightTheme,
-    home: StatefulWidgetPart()
+      darkTheme: MyTheme.darkTheme,
+    // home: StatefulWidgetPart()
     );
 
   }

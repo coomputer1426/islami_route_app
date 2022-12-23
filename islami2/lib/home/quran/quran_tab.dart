@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'sura_name_widget.dart';
+import 'package:arabic_numbers/arabic_numbers.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
 class QuranTab extends StatelessWidget{
   List<String> suraAyat=[
     7  ,286,200,176,120,165,206,75 ,129,109,
@@ -31,11 +33,14 @@ class QuranTab extends StatelessWidget{
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.center,children: [
       Expanded(flex: 2,child: Image.asset("assets/images/quran_header_image.png", height: 140,)),
+      // Text("أسماء السور و الأيات و النزول",
+      Text(AppLocalizations.of(context)!.chapter_name,
+      style: Theme.of(context).textTheme.headlineMedium, textAlign: TextAlign.center,),
       Expanded(flex: 5,child: ListView.separated(itemBuilder:
           (buildContext, index){return SuraNameWidget(suraNames[index], index);},
         separatorBuilder: (_, index){return Container(height: 1,width: double.infinity,
           margin: EdgeInsets.symmetric(horizontal: 24),
-          color: Color(0xFFB7935F),);},
+          color: Theme.of(context).accentColor,);},
         itemCount: suraNames.length,))
     ],);
   }

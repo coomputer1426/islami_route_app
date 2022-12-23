@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:islami2/home/sura_details/sura_details_args.dart';
 import 'package:islami2/home/sura_details/verse_widget.dart';
-
+import 'package:islami2/provider/settings_provider.dart';
+import 'package:provider/provider.dart';
 
 
 class SuraDetailsScreen extends StatefulWidget {
@@ -15,20 +16,21 @@ class SuraDetailsScreen extends StatefulWidget {
 
 class _SuraDetailsScreenState extends State<SuraDetailsScreen> {
   List<String> verses = [];
-
   @override
   Widget build(BuildContext context) {
+    var settingsProvider = Provider.of<SettingsProvider>(context);
     SuraDetailsScreenArgs args = (ModalRoute.of(context)?.settings.arguments) as SuraDetailsScreenArgs;
     if(verses.isEmpty) readFile(args.index+1);
-    return Container(decoration: const BoxDecoration(image: DecorationImage(image:
-    AssetImage("assets/images/background.png"), fit: BoxFit.fill)),
+    return Container(decoration: BoxDecoration(image: DecorationImage(image:
+    AssetImage(settingsProvider.getMainBackgroundImage())),),
         child: Scaffold(appBar: AppBar(title: Text(args.name),),
         body: verses.isEmpty? Center(child: CircularProgressIndicator(),):
         Card(
             // color:Colors.red,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           margin: EdgeInsets.symmetric(vertical: 64, horizontal: 24), elevation: 12 ,
-          child: ListView.separated(itemBuilder: (_, index ){return VerseWidget(verses[index], index+1);},
+          child: ListView.separated(itemBuilder: (_, index ){
+            return VerseWidget(verses[index], index+1);},
             itemCount: verses.length, separatorBuilder: (_,__){
             return Container(color: Theme.of(context).primaryColor,height: 1, width: MediaQuery.of(context).size.width,
             margin: EdgeInsets.symmetric(horizontal: 64),);
@@ -47,3 +49,8 @@ class _SuraDetailsScreenState extends State<SuraDetailsScreen> {
   }
 }
 
+class SuraDetailsScreenArgs{
+  int index;
+  String name;
+  SuraDetailsScreenArgs({required this.index, required this.name});
+}

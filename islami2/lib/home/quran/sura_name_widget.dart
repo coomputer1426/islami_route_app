@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:islami2/home/sura_details/sura_details.dart';
+import 'package:islami2/home/sura_details/sura_details_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localization.dart';
+import 'package:provider/provider.dart';
+import 'package:islami2/provider/settings_provider.dart';
+import 'package:arabic_numbers/arabic_numbers.dart';
 
 class SuraNameWidget extends StatelessWidget {
   // const SuraNameWidget({Key? key}) : super(key: key);
@@ -17,6 +21,7 @@ class SuraNameWidget extends StatelessWidget {
     1,1,1,1,1,1,1,2,2,1,
     1,1,1,1,1,1,1,1,1,2,
     1,1,1,1].map((e) => (e==1)?"مكية": "مدنية").toList();
+  final arabicNumbers = ArabicNumbers();
   List<String> suraAyat=[
     7  ,286,200,176,120,165,206,75 ,129,109,
     123,111, 43, 52, 99,128,111,110, 98,135,
@@ -34,16 +39,17 @@ class SuraNameWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var settingsProvider = Provider.of<SettingsProvider>(context);
     return InkWell(onTap: (){Navigator.pushNamed(context, SuraDetailsScreen.routeName,
         arguments: SuraDetailsScreenArgs(index: index, name: title));},
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween, textDirection: TextDirection.rtl,
         // alignment: Alignment.center,
-        children: [Text(title, style: TextStyle(fontSize: 28),
+        children: [Text(title, style: Theme.of(context).textTheme.headlineMedium,
 
         ),
-        Text(suraAyat[index],style: TextStyle(fontSize: 28),),
-        Text(surahNozol[index],style: TextStyle(fontSize: 28),),
+        Text(settingsProvider.currentLang=="ar"?arabicNumbers.convert(suraAyat[index]):suraAyat[index],style: Theme.of(context).textTheme.headlineMedium,),
+        Text(surahNozol[index]=="مكية"? AppLocalizations.of(context)!.mecca:AppLocalizations.of(context)!.madina,style: Theme.of(context).textTheme.headlineMedium,),
         // textAlign: TextAlign.center,
       ]),
     );

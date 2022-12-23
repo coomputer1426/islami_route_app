@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:islami2/home/sura_details/sura_details_screen.dart';
+import 'package:islami2/test/sura_details.dart';
 import 'package:islami2/home/sura_details/sura_details_args.dart';
-
+import 'package:islami2/my_theme.dart';
 class SuraTitleWidget extends StatelessWidget {
   // const SuraNameWidget({Key? key}) : super(key: key);
   String title;
@@ -35,18 +35,20 @@ class SuraTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(onTap: (){Navigator.pushNamed(context, SuraDetailsScreen.routeName,
-        arguments: SuraDetailsScreenArgs(index: index, name: title));},
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween, textDirection: TextDirection.rtl,
-        // alignment: Alignment.center,
-        children: [Text(title, style: TextStyle(fontSize: 28),
-
-        ),
-        Text(suraAyat[index],style: TextStyle(fontSize: 28),),
-        Text(surahNozol[index],style: TextStyle(fontSize: 28),),
-        // textAlign: TextAlign.center,
-      ]),
+    return InkWell(onTap: (){Navigator.pushNamed(context, SuraDetailsScreenTest.routeName,
+        arguments: SuraDetailsScreenTestArgs(index: index, name: title));},
+      child: Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween, textDirection: TextDirection.rtl,
+          // alignment: Alignment.center,
+          children: [
+            // Text(title, style: Theme.of(context).textTheme.headline4,),
+            Text(title, style: TextStyle(color: Colors.white),),
+          Text(suraAyat[index],style: Theme.of(context).textTheme.headlineMedium,),
+          Text(surahNozol[index],style: Theme.of(context).textTheme.headlineMedium,),
+          // textAlign: TextAlign.center,
+        ]),
+      ),
     );
   }
 }
